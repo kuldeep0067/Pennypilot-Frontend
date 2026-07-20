@@ -1,41 +1,69 @@
 import { useState } from "react";
+import API from "../api/authApi";
 
 function Register() {
 
-  const [name, setName] = useState("");
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    password: ""
+  });
 
-  const [email, setEmail] = useState("");
+  const handleSubmit = async (e) => {
 
-  const [password, setPassword] =
-    useState("");
+    e.preventDefault();
+
+    try {
+
+      const response =
+        await API.post(
+          "/auth/register",
+          form
+        );
+
+      alert(
+        response.data.message
+      );
+
+    } catch (error) {
+
+      alert(
+        error.response.data.message
+      );
+    }
+  };
 
   return (
-    <div>
-
-      <h1>Register</h1>
+    <form onSubmit={handleSubmit}>
 
       <input
         placeholder="Name"
-        value={name}
         onChange={(e) =>
-          setName(e.target.value)
+          setForm({
+            ...form,
+            name: e.target.value
+          })
         }
       />
 
       <input
         placeholder="Email"
-        value={email}
         onChange={(e) =>
-          setEmail(e.target.value)
+          setForm({
+            ...form,
+            email: e.target.value
+          })
         }
       />
 
       <input
         type="password"
         placeholder="Password"
-        value={password}
         onChange={(e) =>
-          setPassword(e.target.value)
+          setForm({
+            ...form,
+            password: e.target.value
+          })
         }
       />
 
@@ -43,7 +71,7 @@ function Register() {
         Register
       </button>
 
-    </div>
+    </form>
   );
 }
 
