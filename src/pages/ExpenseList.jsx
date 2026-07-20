@@ -1,20 +1,28 @@
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
 import expenseApi from "../api/expenseApi";
+
+import ExpenseCard from "../components/ExpenseCard";
+
+import DeleteModal from "../components/DeleteModal";
 
 function ExpenseList() {
 
-  const [expenses,
-    setExpenses] = useState([]);
+  const [expenses, setExpenses] = useState([]);
+
+  const [selectedId, setSelectedId] =
+    useState(null);
+
+  const [showModal, setShowModal] =
+    useState(false);
 
   useEffect(() => {
-
     fetchExpenses();
-
   }, []);
 
-  const fetchExpenses =
-    async () => {
+  const fetchExpenses = async () => {
+
+    try {
 
       const response =
         await expenseApi.get(
@@ -24,9 +32,49 @@ function ExpenseList() {
       setExpenses(
         response.data.data
       );
+
+    } catch (error) {
+
+      console.log(error);
+
+    }
+  };
+
+  const handleDeleteClick =
+    (id) => {
+
+      setSelectedId(id);
+
+      setShowModal(true);
+    };
+
+  const confirmDelete =
+    async () => {
+
+      try {
+
+        await expenseApi.delete(
+          `/expenses/${selectedId}`
+        );
+
+        setExpenses(
+          expenses.filter(
+            (expense) =>
+              expense.id !== selectedId
+          )
+        );
+
+        setShowModal(false);
+
+      } catch (error) {
+
+        console.log(error);
+
+      }
     };
 
   return (
+
     <div>
 
       <h2>
@@ -37,21 +85,34 @@ function ExpenseList() {
         expenses.map(
           (expense) => (
 
-            <div
+            <ExpenseCard
+
               key={expense.id}
-            >
-              <h4>
-                {expense.title}
-              </h4>
 
-              <p>
-                ₹{expense.amount}
-              </p>
+              expense={expense}
 
-            </div>
+              onDelete={
+                handleDeleteClick
+              }
+
+            />
           )
         )
       }
+
+      <DeleteModal
+
+        isOpen={showModal}
+
+        onConfirm={
+          confirmDelete
+        }
+
+        onCancel={() =>
+          setShowModal(false)
+        }
+
+      />
 
     </div>
   );

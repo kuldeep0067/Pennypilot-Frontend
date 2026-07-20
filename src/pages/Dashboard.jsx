@@ -1,20 +1,11 @@
-import Navbar from "../components/Navbar";
+import ExpenseList from "./ExpenseList";
 
 function Dashboard() {
-
   return (
     <div>
+      <h1>Expense Dashboard</h1>
 
-      <Navbar />
-
-      <h1>Dashboard</h1>
-
-      <div>Total Expense</div>
-
-      <div>Today's Expense</div>
-
-      <div>Monthly Expense</div>
-
+      <ExpenseList />
     </div>
   );
 }
