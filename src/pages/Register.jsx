@@ -15,63 +15,90 @@ function Register() {
 
     try {
 
-      const response =
-        await API.post(
-          "/auth/register",
-          form
-        );
+      const response = await API.post(
+        "/auth/register",
+        form
+      );
 
       alert(
         response.data.message
       );
 
+      setForm({
+        name: "",
+        email: "",
+        password: ""
+      });
+
     } catch (error) {
 
       alert(
-        error.response.data.message
+        error.response?.data?.message ||
+        "Registration Failed"
       );
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
 
-      <input
-        placeholder="Name"
-        onChange={(e) =>
-          setForm({
-            ...form,
-            name: e.target.value
-          })
-        }
-      />
+    <div>
 
-      <input
-        placeholder="Email"
-        onChange={(e) =>
-          setForm({
-            ...form,
-            email: e.target.value
-          })
-        }
-      />
-
-      <input
-        type="password"
-        placeholder="Password"
-        onChange={(e) =>
-          setForm({
-            ...form,
-            password: e.target.value
-          })
-        }
-      />
-
-      <button>
+      <h2>
         Register
-      </button>
+      </h2>
 
-    </form>
+      <form onSubmit={handleSubmit}>
+
+        <input
+          type="text"
+          placeholder="Name"
+          value={form.name}
+          onChange={(e) =>
+            setForm({
+              ...form,
+              name: e.target.value
+            })
+          }
+        />
+
+        <br /><br />
+
+        <input
+          type="email"
+          placeholder="Email"
+          value={form.email}
+          onChange={(e) =>
+            setForm({
+              ...form,
+              email: e.target.value
+            })
+          }
+        />
+
+        <br /><br />
+
+        <input
+          type="password"
+          placeholder="Password"
+          value={form.password}
+          onChange={(e) =>
+            setForm({
+              ...form,
+              password: e.target.value
+            })
+          }
+        />
+
+        <br /><br />
+
+        <button type="submit">
+          Register
+        </button>
+
+      </form>
+
+    </div>
+
   );
 }
 

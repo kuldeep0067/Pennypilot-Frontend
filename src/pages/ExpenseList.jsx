@@ -6,6 +6,8 @@ import ExpenseCard from "../components/ExpenseCard";
 
 import DeleteModal from "../components/DeleteModal";
 
+import EmptyState from "../components/EmptyState";
+
 function ExpenseList() {
 
   const [expenses, setExpenses] = useState([]);

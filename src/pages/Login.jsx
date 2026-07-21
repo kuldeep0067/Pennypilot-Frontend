@@ -5,14 +5,12 @@ import { AuthContext } from "../context/AuthContext";
 
 function Login() {
 
-  const { login } =
-    useContext(AuthContext);
+  const { login } = useContext(AuthContext);
 
-  const [form, setForm] =
-    useState({
-      email: "",
-      password: ""
-    });
+  const [form, setForm] = useState({
+    email: "",
+    password: ""
+  });
 
   const handleSubmit = async (e) => {
 

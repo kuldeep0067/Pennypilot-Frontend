@@ -17,6 +17,12 @@ from "./pages/ExpenseList";
 import AddExpense
 from "./pages/AddExpense";
 
+import Dashboard from "./pages/Dashboard";
+
+import ProtectedRoute from "./components/ProtectedRoute";
+
+import NotFound from "./pages/NotFound";
+
 function App() {
 
  return (
@@ -24,6 +30,8 @@ function App() {
   <BrowserRouter>
 
    <Routes>
+
+    <Route path="/" element={<Login />} />
 
     <Route
       path="/login"
@@ -43,6 +51,20 @@ function App() {
     <Route
       path="/add-expense"
       element={<AddExpense />}
+    />
+
+    <Route
+      path="/dashboard"
+      element={
+        <ProtectedRoute>
+          <Dashboard />
+        </ProtectedRoute>
+      }
+    />
+
+    <Route
+      path="*"
+      element={<NotFound />}
     />
 
    </Routes>
